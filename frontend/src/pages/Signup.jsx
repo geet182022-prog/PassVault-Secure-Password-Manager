@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../css/signup.css";
 import { deriveKey, encryptText } from "../utils/cryptoUtils";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import zxcvbn from "zxcvbn";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -63,7 +63,7 @@ const Signup = () => {
 
       const vaultCheck = await encryptText("vault-check", key);
 
-      await axios.post("http://localhost:3002/api/auth/signup", {
+      await axiosInstance.post("/auth/signup", {
         name: form.name,
         email: form.email,
         password: form.password, // LOGIN PASSWORD
@@ -177,8 +177,6 @@ const Signup = () => {
           </p>
         </form>
       </div>
-      Toast
-      <div id="toast"></div>
     </>
   );
 };

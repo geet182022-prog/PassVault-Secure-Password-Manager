@@ -10,7 +10,7 @@ const Profile = () => {
   const { user, setUser, logout } = useAuth();
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
-  const BASE_URL = "http://localhost:3002";
+  // const BASE_URL = "http://localhost:3002";
   const [showPwdBox, setShowPwdBox] = useState(false);
   const [showDeleteBox, setShowDeleteBox] = useState(false);
   const [deletePwd, setDeletePwd] = useState("");
@@ -179,7 +179,7 @@ const Profile = () => {
                 src={
                   preview ||
                   (user.photo
-                    ? `${BASE_URL}${user.photo}`
+                    ? `${import.meta.env.VITE_API_URL}${user.photo}`
                     : "/default-user.png")
                 }
                 className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover border-4 border-white/20 shadow-lg"

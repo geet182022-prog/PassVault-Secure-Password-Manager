@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { AuthContext } from "../context/AuthContext";
 import {  useState,useContext } from "react";
 import githubIcon from "../assets/icons/github.svg";
@@ -13,8 +13,8 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `http://localhost:3002/api/auth/logout`,
+      await axiosInstance.post(
+        "/auth/logout",
         {},
         { withCredentials: true },
       );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const ContactUs = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -16,7 +16,7 @@ const ContactUs = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("http://localhost:3002/api/contactUs", form); // Backend endpoint
+      await axiosInstance.post("/contactUs", form); 
       toast.success("Message sent successfully!");
       setForm({ name: "", email: "", message: "" });
     } catch (err) {

@@ -106,15 +106,15 @@ export const AuthProvider = ({ children }) => {
     if (lockTimerRef.current) clearTimeout(lockTimerRef.current);
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) return;
 
-    axiosInstance
-      .get("/users/me")
-      .then((res) => setUser(res.data))
-      .catch(() => logout());
-  }, []);
+  //   axiosInstance
+  //     .get("/users/me")
+  //     .then((res) => setUser(res.data))
+  //     .catch(() => logout());
+  // }, []);
 
   const login = ({ accessToken, user }) => {
     setAccessTokenService(accessToken); // for axios

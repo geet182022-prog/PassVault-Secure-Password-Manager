@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { deriveKey, decryptText } from "../utils/cryptoUtils";
 import { getDeviceId } from "../utils/device";
-import axios from "axios";
 
 const VerifyOtp = () => {
   const { state } = useLocation();
@@ -29,8 +28,8 @@ const VerifyOtp = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3002/api/auth/verify-otp",
+      const res = await axiosInstance.post(
+        "/auth/verify-otp",
         {
           otp,
           otpToken: state.otpToken,
