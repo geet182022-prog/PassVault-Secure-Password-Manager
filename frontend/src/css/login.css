@@ -1,0 +1,142 @@
+body {
+  overflow-x: hidden;
+  background: radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%);
+}
+
+input,
+button {
+  font-size: 16px; /* prevents mobile zoom on focus */
+}
+
+/* Full screen center */
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Login card */
+.login-card {
+  width: 100%;
+  max-width: 420px; /* desktop size */
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-sizing: border-box;
+
+  /* Solid 3-color mix */
+  background: linear-gradient(145deg, #ffffff, #f1f3f5, #e9ecef);
+
+  box-shadow:
+    0 15px 35px rgba(241, 239, 239, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Heading */
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #7007fa;
+  font-size: larger;
+  font-weight: 700;
+}
+
+/* Labels */
+.login-card label {
+  margin-bottom: 6px;
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #343a40;
+}
+
+/* Inputs */
+.login-card input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  outline: none;
+  font-size: 14px;
+
+  transition: all 0.3s ease;
+}
+
+/* Input focus */
+.login-card input:focus {
+  border-color: #750dfd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+}
+
+/* Button */
+.login-card button {
+  margin-top: 25px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+
+  background: linear-gradient(135deg, #740aff, #8f4ef7);
+
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+.login-card input,
+.login-card button {
+  width: 100%;
+}
+
+/* Button hover */
+.login-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Button active */
+.login-card button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #8400ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+  .login-card {
+    padding: 1.25rem;
+  }
+
+  .login-card h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-card {
+    max-width: 480px;
+  }
+}

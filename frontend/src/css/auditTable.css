@@ -1,0 +1,104 @@
+@media (max-width: 600px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none; /* hide table headers */
+  }
+
+  tr {
+    margin-bottom: 1em;
+    border: 1px solid #ccc; /* optional: card border */
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  td:last-child {
+    border-bottom: 0;
+  }
+
+  td::before {
+    content: attr(data-label); /* show column name */
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 8px;
+    color: #aaa;
+  }
+
+  .table-wrapper {
+    overflow-x: auto; /* allows horizontal scroll */
+    width: 100%;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  }
+
+  table {
+    width: 100%;
+    min-width: 600px; /* optional, ensures table doesn’t shrink too much */
+    border-collapse: collapse;
+  }
+}
+
+@media (max-width: 600px) {
+  td {
+    display: flex;
+    flex-wrap: wrap; /* allow text to wrap */
+    justify-content: flex-start; /* prevent stretching */
+    gap: 4px; /* space between label and value */
+    padding: 6px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    word-break: break-word; /* wrap long words */
+  }
+}
+
+td[data-label="Device"] {
+  max-width: 90%;
+}
+
+@media (max-width: 600px) {
+  td::before {
+    content: attr(data-label); /* show column name only on mobile */
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 8px;
+    color: #aaa;
+  }
+  td {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 6px 8px;
+    word-break: break-word;
+  }
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* scroll horizontally instead of cutting off */
+  }
+  .audit-table {
+    width: 100%;
+    min-width: 600px; /* ensures table doesn’t shrink too much */
+    border-collapse: collapse;
+  }
+  .audit-table th:first-child,
+  .audit-table td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: #1a1a1a; /* same as your table background */
+    z-index: 2; /* keep above other cells */
+    padding-left: 8px;
+  }
+}
