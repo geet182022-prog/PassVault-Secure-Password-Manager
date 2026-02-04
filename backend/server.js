@@ -55,6 +55,10 @@ app.get("/", (req, res) => {
   res.json({ msg: "CORS Enabled" });
 });
 
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK" });
+});
+
 // GET ALL WITH ZERO KNOWLEDGE
 app.get("/api/passwords", authMiddleware, async (req, res) => {
   try {
