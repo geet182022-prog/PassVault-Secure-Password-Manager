@@ -121,8 +121,8 @@ router.post("/login", authLimiter, async (req, res) => {
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: false, // true in production (https)
-        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production", // true in production (https)
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       });
 
@@ -299,8 +299,8 @@ router.post("/verify-otp", async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -388,8 +388,8 @@ router.post("/refresh", async (req, res) => {
     // 🔥 update cookie
     res.cookie("refreshToken", newRefresh, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 

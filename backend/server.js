@@ -30,9 +30,15 @@ app.use(
 
 // middleware
 app.use(cookieParser());
+
+const allowedOrigins = [
+  "http://localhost:5173", // local frontend
+  "https://pass-vault-secure-password-manager-754fsyfzt.vercel.app" // deployed frontend
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // Vite frontend
+    origin: allowedOrigins,
     credentials: true, // allow cookies
   }),
 );
@@ -80,7 +86,7 @@ app.post("/api/passwords", authMiddleware, async (req, res) => {
       category,
       userId: req.userId, // from authMiddleware
     });
-    await logEvent(req, "PASSWORD_CREATED");
+    //await logEvent(req, "PASSWORD_CREATED");
     res.json({ success: true, result: saved });
   } catch (err) {
     console.error("SAVE PASSWORD ERROR:", err?.message);
