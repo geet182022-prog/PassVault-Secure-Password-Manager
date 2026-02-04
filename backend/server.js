@@ -270,8 +270,9 @@ app.post("/api/contactUs", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () =>
+const PORT = process.env.PORT || 3002; 
+app.listen(PORT, () =>
   console.log(
-    `Example app listening on port http://localhost:${process.env.PORT}!`,
+    `Example app listening on port http://localhost:${PORT}!`,
   ),
 );
