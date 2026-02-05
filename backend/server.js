@@ -16,7 +16,7 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import path from "path";
 import auditRoutes from "./routes/audit.routes.js";
-// import nodemailer from "nodemailer";
+//import nodemailer from "nodemailer";
 import { sendContactEmail } from "./utils/mailer.js";
 
 const __dirname = path.resolve();
@@ -264,20 +264,45 @@ app.post("/api/breach-check", authMiddleware, async (req, res) => {
 });
 
 // POST /api/contact
+// app.post("/api/contactUs", async (req, res) => {
+//   const { name, email, message } = req.body;
+
+//   if (!name || !email || !message) {
+//     return res.status(400).json({ msg: "All fields are required" });
+//   }
+
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       service: "Gmail", // or your email service
+//       auth: {
+//         user: process.env.EMAIL_USER,
+//         pass: process.env.EMAIL_PASS,
+//       },
+//     });
+
+//     await transporter.sendMail({
+//       from: email,
+//       to: process.env.EMAIL_USER,
+//       subject: `New Contact Message from ${name}`,
+//       text: message,
+//       html: `<h1><strong>PassVault:🔑</strong></h1>
+//              <p><strong>Name:</strong> ${name}</p>
+//              <p><strong>Email:</strong> ${email}</p>
+//              <p><strong>Message:</strong> ${message}</p>`,
+//     });
+
+//     res.status(200).json({ msg: "Message sent successfully" });
+//   } catch (err) {
+//     console.error(err?.message);
+//     res.status(500).json({ msg: "Failed to send message" });
+//   }
+// });
 
 app.post("/api/contactUs", async (req, res) => {
-  const { name, email, message } = req.body;
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ msg: "All fields are required" });
-  }
-
   try {
-    await sendContactEmail({ name, email, message });
-
+    await sendContactEmail(req.body);
     res.status(200).json({ msg: "Message sent successfully!" });
   } catch (err) {
-    console.error("CONTACT ERROR:", err.message);
     res.status(500).json({ msg: "Failed to send message" });
   }
 });

@@ -57,79 +57,165 @@
 //   });
 // };
 
-import { Resend } from "resend";
+// import { Resend } from "resend";
 
-// const resend = new Resend(process.env.RESEND_API_KEY);
+// // const resend = new Resend(process.env.RESEND_API_KEY);
 
-// ✅ Common sender
-const FROM_EMAIL = "PassVault <onboarding@resend.dev>";
+// // ✅ Common sender
+// const FROM_EMAIL = "PassVault <onboarding@resend.dev>";
 
-/* ----------------------------------------
-   🔐 LOGIN OTP EMAIL
------------------------------------------*/
-export const sendOTPEmail = async (to, otp) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  await resend.emails.send({
-    from: FROM_EMAIL,
-    to,
-    subject: "🔐 Your PassVault Login OTP Code",
-    html: `
-      <h2>PassVault Login Verification</h2>
-      <p>Your OTP code is:</p>
-      <h1 style="letter-spacing: 4px;">${otp}</h1>
-      <p>This code expires in <b>5 minutes</b>.</p>
-    `,
+// /* ----------------------------------------
+//    🔐 LOGIN OTP EMAIL
+// -----------------------------------------*/
+// export const sendOTPEmail = async (to, otp) => {
+//   const resend = new Resend(process.env.RESEND_API_KEY);
+//   await resend.emails.send({
+//     from: FROM_EMAIL,
+//     to,
+//     subject: "🔐 Your PassVault Login OTP Code",
+//     html: `
+//       <h2>PassVault Login Verification</h2>
+//       <p>Your OTP code is:</p>
+//       <h1 style="letter-spacing: 4px;">${otp}</h1>
+//       <p>This code expires in <b>5 minutes</b>.</p>
+//     `,
+//   });
+
+//   console.log("✅ OTP Email sent via Resend");
+// };
+
+// /* ----------------------------------------
+//    ⚠ NEW DEVICE ALERT EMAIL
+// -----------------------------------------*/
+// export const sendNewDeviceAlert = async (to, deviceInfo) => {
+//   const resend = new Resend(process.env.RESEND_API_KEY);
+
+//   await resend.emails.send({
+//     from: FROM_EMAIL,
+//     to,
+//     subject: "⚠ New Device Login Detected",
+//     html: `
+//       <h2>New Device Login Alert</h2>
+//       <p>We detected a login from a new device:</p>
+//       <p><b>${deviceInfo}</b></p>
+//       <p>If this wasn't you, please reset your password immediately.</p>
+//     `,
+//   });
+
+//   console.log("✅ New Device Alert sent via Resend");
+// };
+
+// /* ----------------------------------------
+//    🔁 GENERIC EMAIL (Forgot Password etc.)
+// -----------------------------------------*/
+// export const sendTextEmail = async ({ to, subject, text }) => {
+//   const resend = new Resend(process.env.RESEND_API_KEY);
+
+//   await resend.emails.send({
+//     from: FROM_EMAIL,
+//     to,
+//     subject,
+//     text,
+//   });
+
+//   console.log("✅ Generic Email sent via Resend");
+// };
+
+// export const sendContactEmail = async ({ name, email, message }) => {
+//   const resend = new Resend(process.env.RESEND_API_KEY);
+
+//   await resend.emails.send({
+//     from: "PassVault Contact <onboarding@resend.dev>",
+//     to: process.env.EMAIL_USER, // your receiving email
+//     subject: `📩 New Contact Message from ${name}`,
+//     html: `
+//       <h2>New Contact Form Submission</h2>
+//       <p><b>Name:</b> ${name}</p>
+//       <p><b>Email:</b> ${email}</p>
+//       <p><b>Message:</b></p>
+//       <p>${message}</p>
+//     `,
+//   });
+
+//   console.log("✅ Contact email sent via Resend");
+// };
+
+import nodemailer from "nodemailer";
+
+/**
+ * Create Brevo SMTP transporter
+ */
+const getTransporter = () => {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false, // true only for port 465
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
   });
-
-  console.log("✅ OTP Email sent via Resend");
 };
 
-/* ----------------------------------------
-   ⚠ NEW DEVICE ALERT EMAIL
------------------------------------------*/
-export const sendNewDeviceAlert = async (to, deviceInfo) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
+/**
+ * ✅ Send Login OTP Email
+ */
+export const sendOTPEmail = async (to, otp) => {
+  try {
+    const transporter = getTransporter();
 
-  await resend.emails.send({
-    from: FROM_EMAIL,
+    await transporter.sendMail({
+      from: `"PassVault Security" <${process.env.SMTP_USER}>`,
+      to,
+      subject: "🔐 Your PassVault OTP Code",
+      html: `
+        <h2>PassVault Login Verification</h2>
+        <p>Your OTP code is:</p>
+        <h1 style="letter-spacing:4px;">${otp}</h1>
+        <p>This code expires in 5 minutes.</p>
+      `,
+    });
+
+    console.log("✅ OTP Email sent successfully via Brevo SMTP");
+  } catch (error) {
+    console.error("❌ OTP EMAIL ERROR:", error.message);
+    throw error;
+  }
+};
+
+/**
+ * ✅ New Device Alert Email
+ */
+export const sendNewDeviceAlert = async (to, deviceInfo) => {
+  const transporter = getTransporter();
+
+  await transporter.sendMail({
+    from: `"PassVault Security" <${process.env.SMTP_USER}>`,
     to,
     subject: "⚠ New Device Login Detected",
     html: `
       <h2>New Device Login Alert</h2>
-      <p>We detected a login from a new device:</p>
+      <p>A login was detected from a new device:</p>
       <p><b>${deviceInfo}</b></p>
       <p>If this wasn't you, please reset your password immediately.</p>
     `,
   });
 
-  console.log("✅ New Device Alert sent via Resend");
+  console.log("✅ New Device Alert Email Sent");
 };
 
-/* ----------------------------------------
-   🔁 GENERIC EMAIL (Forgot Password etc.)
------------------------------------------*/
-export const sendTextEmail = async ({ to, subject, text }) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
-  await resend.emails.send({
-    from: FROM_EMAIL,
-    to,
-    subject,
-    text,
-  });
-
-  console.log("✅ Generic Email sent via Resend");
-};
-
+/**
+ * ✅ ContactUs Email
+ */
 export const sendContactEmail = async ({ name, email, message }) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const transporter = getTransporter();
 
-  await resend.emails.send({
-    from: "PassVault Contact <onboarding@resend.dev>",
-    to: process.env.EMAIL_USER, // your receiving email
-    subject: `📩 New Contact Message from ${name}`,
+  await transporter.sendMail({
+    from: `"PassVault Contact" <${process.env.SMTP_USER}>`,
+    to: process.env.SMTP_USER,
+    subject: `📩 Contact Message from ${name}`,
     html: `
-      <h2>New Contact Form Submission</h2>
+      <h2>New Contact Form Message</h2>
       <p><b>Name:</b> ${name}</p>
       <p><b>Email:</b> ${email}</p>
       <p><b>Message:</b></p>
@@ -137,5 +223,24 @@ export const sendContactEmail = async ({ name, email, message }) => {
     `,
   });
 
-  console.log("✅ Contact email sent via Resend");
+  console.log("✅ Contact Email Sent");
+};
+
+// 🔁 GENERIC TEXT EMAIL (Brevo SMTP)
+export const sendTextEmail = async ({ to, subject, text }) => {
+  try {
+    const transporter = getTransporter();
+
+    await transporter.sendMail({
+      from: `"PassVault Security" <${process.env.SMTP_USER}>`,
+      to,
+      subject,
+      text,
+    });
+
+    console.log("✅ Text email sent successfully via Brevo SMTP");
+  } catch (error) {
+    console.error("❌ TEXT EMAIL ERROR:", error.message);
+    throw error;
+  }
 };
