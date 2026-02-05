@@ -33,7 +33,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173", // local frontend
-  "https://pass-vault-secure-password-manager-754fsyfzt.vercel.app" // deployed frontend
+  "https://pass-vault-secure-password-manager-su7n-g2n6xse28.vercel.app" // deployed frontend
 ];
 
 app.use(
