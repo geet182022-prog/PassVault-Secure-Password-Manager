@@ -145,15 +145,37 @@ import nodemailer from "nodemailer";
 /**
  * Create Brevo SMTP transporter
  */
+// const getTransporter = () => {
+//   return nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port: Number(process.env.SMTP_PORT),
+//     secure: false, // true only for port 465
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+//   });
+// };
 const getTransporter = () => {
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false, // true only for port 465
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false, // MUST be false for port 587
+
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+
+    requireTLS: true,
+
+    tls: {
+      rejectUnauthorized: false,
+    },
+
+    connectionTimeout: 20000,
+    greetingTimeout: 20000,
+    socketTimeout: 20000,
   });
 };
 
