@@ -26,28 +26,36 @@ const Unlock = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      <form onSubmit={handleUnlock} className="bg-white/10 p-8 rounded-xl w-80">
-        <h2 className="text-xl font-bold mb-4 text-center">🔒 Unlock Vault</h2>
-
-        <input
-          type="password"
-          placeholder="Enter Master Password"
-          value={masterPassword}
-          onChange={(e) => setMasterPassword(e.target.value)}
-          className="w-full p-2 rounded bg-black/30 outline-none mb-4"
-          required
-        />
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-
-        <button
-          type="submit"
-          className="w-full bg-violet-700 hover:bg-violet-600 py-2 rounded"
+    <>
+      <ToastContainer theme="colored" />
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <form
+          onSubmit={handleUnlock}
+          className="bg-white/10 p-8 rounded-xl w-80"
         >
-          Unlock
-        </button>
-      </form>
-    </div>
+          <h2 className="text-xl font-bold mb-4 text-center">
+            🔒 Unlock Vault
+          </h2>
+
+          <input
+            type="password"
+            placeholder="Enter Master Password"
+            value={masterPassword}
+            onChange={(e) => setMasterPassword(e.target.value)}
+            className="w-full p-2 rounded bg-black/30 outline-none mb-4"
+            required
+          />
+          {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+
+          <button
+            type="submit"
+            className="w-full bg-violet-700 hover:bg-violet-600 py-2 rounded"
+          >
+            Unlock
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 
