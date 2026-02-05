@@ -8,11 +8,15 @@ This application allows users to safely store, manage, and audit their credentia
 ---
 # 🚀 Live Demo
 
-🌐 Frontend: https://your-frontend-url
+🌐 Frontend: https://pass-vault-secure-password-manager-two.vercel.app
 
-🔗 Backend API: https://your-backend-url
+🔗 Backend API: https://passvault-backend-ikj0.onrender.com
 
-Demo credentials available on request (for security reasons).
+✅ Health Check Endpoint: https://passvault-backend-ikj0.onrender.com/api/health
+
+⚠️ Note: Signup/Login is enabled, but abuse is prevented using OTP throttling + rate limiting.
+
+⚠️ Demo credentials available on request (for security reasons).
 
 # 🎯 Why This Project Stands Out
 
@@ -24,6 +28,20 @@ Most password manager projects stop at saving encrypted data. This project goes 
 ✔ Vault auto‑locking and trusted devices
 ✔ Audit logging & rate limiting
 ✔ Built with security reviews, scalability, and recruiters in mind.
+---
+
+## 📌 Resume-Ready Project Summary
+
+PassVault is a **security-first password manager** built with the MERN stack, implementing a **zero-knowledge-inspired vault architecture** where all sensitive credentials are encrypted client-side before reaching the backend.
+
+The system includes **OTP-based login verification**, **trusted device binding**, **refresh token rotation**, and **audit logging** to mirror real-world authentication workflows used in modern security products.
+
+Designed as a production-grade project showcasing expertise in:
+
+- Secure authentication & session management  
+- Encryption-based vault systems  
+- Scalable backend API engineering  
+- Real-world security practices & monitoring 
 
 
 ### ✨ Core Features
@@ -55,36 +73,37 @@ Most password manager projects stop at saving encrypted data. This project goes 
 
 
 # 📜 Audit Logs & Monitoring
-✔ Login, logout, vault access tracking
-✔ Password add/edit/delete events
+✔ Login/logout tracking 
+✔ Password add/edit/delete events logs
 ✔ IP address & device metadata
-✔ Backend‑secured, tamper‑resistant logs
+✔ Vault access monitoring
+✔ Tamper-resistant backend audit architecture 
 
 # 🛡️ Advanced Security Features
 ✔ Password strength meter (zxcvbn)
 ✔ Breach detection checks
 ✔ Rate limiting on sensitive endpoints
 ✔ Secure error handling (no info leakage)
-✔ CSRF‑safe API architecture
+✔  CSRF-safe authentication via cookies + tokens 
 
 # 📦 Additional Capabilities
 ✔ Import / Export passwords
 ✔ Profile photo upload
 ✔ Contact‑Us email integration
-✔ oast‑based UX feedback
+✔ Toast‑based UX feedback
 ✔ Axios interceptors for auth refresh
 ✔ Fully responsive Tailwind UI
 
 
 # 🖼️ Screenshots
 🔑 Authentication
-link: screenshots\authentication.png
+ ![](./screenshots/authentication.png)
 
 🗄️ Vault Dashboard
-link: screenshots\vault_page.png
+![](./screenshots/vault_page.png) 
 
 📜 Audit Logs
-link: screenshots\audit_page.png
+![](./screenshots/audit_page.png) 
 
 📌 Screenshots are stored in the /screenshots directory.
 
@@ -95,7 +114,7 @@ link: screenshots\audit_page.png
 ✔ Tailwind CSS
 ✔ Axios
 ✔ React Router
-✔ Zxcvbn
+✔ Zxcvbn password scoring
 
 ### Backend
 ✔ Node.js
@@ -130,6 +149,67 @@ link: screenshots\audit_page.png
 ✔ Backend: Render
 ✔ Database: MongoDB Atlas
 
+
+# 📡 API Endpoint Documentation
+
+All endpoints are prefixed with:`/api`
+## 🔐 Authentication Routes
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| POST  | `/auth/signup` | Register new user with vault initialization |
+| POST  | `/auth/login` | Login + triggers OTP if device not trusted |
+| POST  | `/auth/verify-otp` | Verify OTP and complete login |
+| POST  | `/auth/refresh` | Refresh access token (rotation + device binding) |
+| POST  | `/auth/logout` | Logout and revoke refresh token |
+| GET   | `/auth/me` | Get current logged-in user profile 
+
+---
+
+## 🗄️ Vault Password Routes (Protected)
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| GET   | `/passwords` | Fetch all encrypted vault credentials |
+| POST  | `/passwords` | Add a new encrypted password entry |
+| PUT   | `/passwords/:id` | Update an existing vault entry |
+| DELETE| `/passwords/:id` | Delete a password entry |
+| PATCH | `/passwords/:id/favorite` | Toggle favorite credentials |
+| PUT   | `/passwords/rotate-vault` | Rotate vault encryption after master password change |
+
+---
+
+## 📜 Audit Logging Routes
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| GET   | `/audit` | View login + vault activity logs |
+
+---
+
+## 🛡️ Security Utility Routes
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| POST  | `/breach-check` | Check password exposure using HIBP API |
+
+---
+
+## 📩 Contact Routes
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| POST  | `/contactUs` | Send contact form message via email provider |
+
+---
+
+## ✅ Health Check
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| GET   | `/health` | Backend uptime + deployment status |
+
+---
 
 ### 👨‍💻 Author
 
