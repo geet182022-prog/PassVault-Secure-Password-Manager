@@ -366,7 +366,6 @@ export const sendNewDeviceAlert = async (to, deviceInfo) => {
   });
 };
 
----
 
 /**
  * ✅ ContactUs Email (Admin receives message)
@@ -384,8 +383,6 @@ export const sendContactEmail = async ({ name, email, message }) => {
     `,
   });
 };
-
----
 
 /**
  * ✅ Generic Text Email (Forgot Password, Notifications, etc.)
