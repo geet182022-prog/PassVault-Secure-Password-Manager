@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import heart from "../assets/icons/heart.png";
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
             <span className="text-purple-400 text-2xl">Vault&gt;</span>
         </div>
         <div className='flex justify-center items-center'>
-             Created with <img className='w-5 m-2' src="src\assets\icons\heart.png" alt="" /> by Geetanjali
+             Created with <img className='w-5 m-2' src={heart} alt="" /> by Geetanjali
         </div>
        
     </div>

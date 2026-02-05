@@ -68,7 +68,7 @@ const Navbar = () => {
           {/* GITHUB ICON */}
           <div className="hidden md:block">
             <img
-              className="w-7 cursor-pointer"
+              className="w-7 cursor-pointer invert"
               src={githubIcon}
               alt="GitHub"
             />

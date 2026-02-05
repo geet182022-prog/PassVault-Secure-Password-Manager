@@ -8,7 +8,7 @@ import { decryptText } from "../utils/cryptoUtils";
 import { useAuth } from "../context/AuthContext";
 import ChangeMasterPassword from "../components/ChangeMasterPassword";
 import { checkBreach } from "../utils/breachUtils";
-
+import copyIcon from "../assets/icons/copy.png";
 const Passwords = () => {
   const [passwords, setPasswords] = useState([]);
   const [search, setSearch] = useState("");
@@ -356,7 +356,7 @@ const Passwords = () => {
                                 {item.username}
                                 <img
                                   className="w-4 invert cursor-pointer"
-                                  src="icons/copy.png"
+                                  src={copyIcon}
                                   alt=""
                                   onClick={(e) => {
                                     e.preventDefault();
@@ -374,7 +374,7 @@ const Passwords = () => {
                                   : "••••••"}
                                 <img
                                   className="w-4 invert cursor-pointer"
-                                  src="src\assets\icons\copy.png"
+                                  src={copyIcon}
                                   alt=""
                                   onClick={(e) => {
                                     e.preventDefault();
@@ -480,7 +480,7 @@ const Passwords = () => {
                         </span>
                         <img
                           className="w-4 invert cursor-pointer shrink-0"
-                          src="src\assets\icons\copy.png"
+                          src={copyIcon}
                           onClick={() => copyText(item.username)}
                         />
                       </div>
@@ -491,7 +491,7 @@ const Passwords = () => {
                         </span>
                         <img
                           className="w-4 invert cursor-pointer"
-                          src="src\assets\icons\copy.png"
+                          src={copyIcon}
                           alt="Copy password"
                           onClick={() => copyText(item.password)}
                         />

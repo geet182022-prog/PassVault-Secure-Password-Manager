@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../utils/axiosInstance";
+import contactImg from "../assets/icons/contactUs.jpeg"
+
 
 const ContactUs = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -44,7 +46,7 @@ const ContactUs = () => {
           className="flex-1 flex flex-col items-center lg:items-start gap-6"
         >
           <img
-            src="src\assets\contactUs.jpeg"
+            src={contactImg}
             alt="Owner"
             className="w-48 h-48 rounded-full object-cover border-4 border-purple-400"
           />
