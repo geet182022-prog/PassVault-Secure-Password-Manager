@@ -298,10 +298,20 @@ app.post("/api/breach-check", authMiddleware, async (req, res) => {
 //   }
 // });
 
+// app.post("/api/contactUs", async (req, res) => {
+//   try {
+//     await sendContactEmail(req.body);
+//     res.status(200).json({ msg: "Message sent successfully!" });
+//   } catch (err) {
+//     res.status(500).json({ msg: "Failed to send message" });
+//   }
+// });
 app.post("/api/contactUs", async (req, res) => {
+  const { name, email, message } = req.body;
+
   try {
-    await sendContactEmail(req.body);
-    res.status(200).json({ msg: "Message sent successfully!" });
+    await sendContactEmail({ name, email, message });
+    res.status(200).json({ msg: "Message sent successfully" });
   } catch (err) {
     res.status(500).json({ msg: "Failed to send message" });
   }

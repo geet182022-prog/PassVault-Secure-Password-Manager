@@ -140,7 +140,7 @@
 //   console.log("✅ Contact email sent via Resend");
 // };
 
-import nodemailer from "nodemailer";
+//import nodemailer from "nodemailer";
 
 /**
  * Create Brevo SMTP transporter
@@ -180,57 +180,181 @@ import nodemailer from "nodemailer";
 // };
 
 
-const getTransporter = () => {
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false,
+// const getTransporter = () => {
+//   return nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port: Number(process.env.SMTP_PORT),
+//     secure: false,
 
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
 
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+//   });
+// };
+
+// /**
+//  * ✅ Send Login OTP Email
+//  */
+// export const sendOTPEmail = async (to, otp) => {
+//   try {
+//     const transporter = getTransporter();
+
+//     await transporter.sendMail({
+//       from: `"PassVault Security" <${process.env.SMTP_USER}>`,
+//       to,
+//       subject: "🔐 Your PassVault OTP Code",
+//       html: `
+//         <h2>PassVault Login Verification</h2>
+//         <p>Your OTP code is:</p>
+//         <h1 style="letter-spacing:4px;">${otp}</h1>
+//         <p>This code expires in 5 minutes.</p>
+//       `,
+//     });
+
+//     console.log("✅ OTP Email sent successfully via Brevo SMTP");
+//   } catch (error) {
+//     console.error("❌ OTP EMAIL ERROR:", error.message);
+//     throw error;
+//   }
+// };
+
+// /**
+//  * ✅ New Device Alert Email
+//  */
+// export const sendNewDeviceAlert = async (to, deviceInfo) => {
+//   const transporter = getTransporter();
+
+//   await transporter.sendMail({
+//     from: `"PassVault Security" <${process.env.SMTP_USER}>`,
+//     to,
+//     subject: "⚠ New Device Login Detected",
+//     html: `
+//       <h2>New Device Login Alert</h2>
+//       <p>A login was detected from a new device:</p>
+//       <p><b>${deviceInfo}</b></p>
+//       <p>If this wasn't you, please reset your password immediately.</p>
+//     `,
+//   });
+
+//   console.log("✅ New Device Alert Email Sent");
+// };
+
+// /**
+//  * ✅ ContactUs Email
+//  */
+// export const sendContactEmail = async ({ name, email, message }) => {
+//   const transporter = getTransporter();
+
+//   await transporter.sendMail({
+//     from: `"PassVault Contact" <${process.env.SMTP_USER}>`,
+//     to: process.env.SMTP_USER,
+//     subject: `📩 Contact Message from ${name}`,
+//     html: `
+//       <h2>New Contact Form Message</h2>
+//       <p><b>Name:</b> ${name}</p>
+//       <p><b>Email:</b> ${email}</p>
+//       <p><b>Message:</b></p>
+//       <p>${message}</p>
+//     `,
+//   });
+
+//   console.log("✅ Contact Email Sent");
+// };
+
+// // 🔁 GENERIC TEXT EMAIL (Brevo SMTP)
+// export const sendTextEmail = async ({ to, subject, text }) => {
+//   try {
+//     const transporter = getTransporter();
+
+//     await transporter.sendMail({
+//       from: `"PassVault Security" <${process.env.SMTP_USER}>`,
+//       to,
+//       subject,
+//       text,
+//     });
+
+//     console.log("✅ Text email sent successfully via Brevo SMTP");
+//   } catch (error) {
+//     console.error("❌ TEXT EMAIL ERROR:", error.message);
+//     throw error;
+//   }
+// };
+
+
+
+
+
+
+
+
+import axios from "axios";
+
+const BREVO_URL = "https://api.brevo.com/v3/smtp/email";
+
+/**
+ * ✅ Internal Helper Function
+ * Sends any email via Brevo API
+ */
+const sendBrevoEmail = async ({ to, subject, html }) => {
+  try {
+    await axios.post(
+      BREVO_URL,
+      {
+        sender: {
+          name: "PassVault Security",
+          email: process.env.BREVO_SENDER_EMAIL, // Verified sender
+        },
+
+        to: [{ email: to }],
+
+        subject,
+
+        htmlContent: html,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("✅ Email sent successfully via Brevo API");
+  } catch (error) {
+    console.error("❌ BREVO EMAIL ERROR:", error.response?.data || error.message);
+    throw error;
+  }
 };
+
 
 /**
  * ✅ Send Login OTP Email
  */
 export const sendOTPEmail = async (to, otp) => {
-  try {
-    const transporter = getTransporter();
-
-    await transporter.sendMail({
-      from: `"PassVault Security" <${process.env.SMTP_USER}>`,
-      to,
-      subject: "🔐 Your PassVault OTP Code",
-      html: `
-        <h2>PassVault Login Verification</h2>
-        <p>Your OTP code is:</p>
-        <h1 style="letter-spacing:4px;">${otp}</h1>
-        <p>This code expires in 5 minutes.</p>
-      `,
-    });
-
-    console.log("✅ OTP Email sent successfully via Brevo SMTP");
-  } catch (error) {
-    console.error("❌ OTP EMAIL ERROR:", error.message);
-    throw error;
-  }
+  return sendBrevoEmail({
+    to,
+    subject: "🔐 Your PassVault OTP Code",
+    html: `
+      <h2>PassVault Login Verification</h2>
+      <p>Your OTP code is:</p>
+      <h1 style="letter-spacing:4px;">${otp}</h1>
+      <p>This code expires in <b>5 minutes</b>.</p>
+    `,
+  });
 };
+
+
 
 /**
  * ✅ New Device Alert Email
  */
 export const sendNewDeviceAlert = async (to, deviceInfo) => {
-  const transporter = getTransporter();
-
-  await transporter.sendMail({
-    from: `"PassVault Security" <${process.env.SMTP_USER}>`,
+  return sendBrevoEmail({
     to,
     subject: "⚠ New Device Login Detected",
     html: `
@@ -240,19 +364,16 @@ export const sendNewDeviceAlert = async (to, deviceInfo) => {
       <p>If this wasn't you, please reset your password immediately.</p>
     `,
   });
-
-  console.log("✅ New Device Alert Email Sent");
 };
 
+---
+
 /**
- * ✅ ContactUs Email
+ * ✅ ContactUs Email (Admin receives message)
  */
 export const sendContactEmail = async ({ name, email, message }) => {
-  const transporter = getTransporter();
-
-  await transporter.sendMail({
-    from: `"PassVault Contact" <${process.env.SMTP_USER}>`,
-    to: process.env.SMTP_USER,
+  return sendBrevoEmail({
+    to: process.env.BREVO_SENDER_EMAIL, // Your inbox/admin email
     subject: `📩 Contact Message from ${name}`,
     html: `
       <h2>New Contact Form Message</h2>
@@ -262,25 +383,20 @@ export const sendContactEmail = async ({ name, email, message }) => {
       <p>${message}</p>
     `,
   });
-
-  console.log("✅ Contact Email Sent");
 };
 
-// 🔁 GENERIC TEXT EMAIL (Brevo SMTP)
+---
+
+/**
+ * ✅ Generic Text Email (Forgot Password, Notifications, etc.)
+ */
 export const sendTextEmail = async ({ to, subject, text }) => {
-  try {
-    const transporter = getTransporter();
-
-    await transporter.sendMail({
-      from: `"PassVault Security" <${process.env.SMTP_USER}>`,
-      to,
-      subject,
-      text,
-    });
-
-    console.log("✅ Text email sent successfully via Brevo SMTP");
-  } catch (error) {
-    console.error("❌ TEXT EMAIL ERROR:", error.message);
-    throw error;
-  }
+  return sendBrevoEmail({
+    to,
+    subject,
+    html: `
+      <h2>${subject}</h2>
+      <p>${text}</p>
+    `,
+  });
 };
