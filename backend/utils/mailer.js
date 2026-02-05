@@ -156,26 +156,44 @@ import nodemailer from "nodemailer";
 //     },
 //   });
 // };
+// const getTransporter = () => {
+//   return nodemailer.createTransport({
+//     host: "smtp-relay.brevo.com",
+//     port: 587,
+//     secure: false, // MUST be false for port 587
+
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+
+//     requireTLS: true,
+
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+
+//     connectionTimeout: 20000,
+//     greetingTimeout: 20000,
+//     socketTimeout: 20000,
+//   });
+// };
+
+
 const getTransporter = () => {
   return nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false, // MUST be false for port 587
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
 
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
 
-    requireTLS: true,
-
     tls: {
       rejectUnauthorized: false,
     },
-
-    connectionTimeout: 20000,
-    greetingTimeout: 20000,
-    socketTimeout: 20000,
   });
 };
 
