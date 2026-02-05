@@ -57,8 +57,6 @@
 //   });
 // };
 
-
-
 import { Resend } from "resend";
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
@@ -123,3 +121,21 @@ export const sendTextEmail = async ({ to, subject, text }) => {
   console.log("✅ Generic Email sent via Resend");
 };
 
+export const sendContactEmail = async ({ name, email, message }) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  await resend.emails.send({
+    from: "PassVault Contact <onboarding@resend.dev>",
+    to: process.env.EMAIL_USER, // your receiving email
+    subject: `📩 New Contact Message from ${name}`,
+    html: `
+      <h2>New Contact Form Submission</h2>
+      <p><b>Name:</b> ${name}</p>
+      <p><b>Email:</b> ${email}</p>
+      <p><b>Message:</b></p>
+      <p>${message}</p>
+    `,
+  });
+
+  console.log("✅ Contact email sent via Resend");
+};

@@ -16,7 +16,8 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import path from "path";
 import auditRoutes from "./routes/audit.routes.js";
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
+import { sendContactEmail } from "./utils/mailer.js";
 
 const __dirname = path.resolve();
 connectDB();
@@ -36,12 +37,34 @@ const allowedOrigins = [
   "https://pass-vault-secure-password-manager-two.vercel.app" // deployed frontend
 ];
 app.set("trust proxy", 1);
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true, // allow cookies
+//   }),
+// );
 app.use(
   cors({
-    origin: allowedOrigins,
-    credentials: true, // allow cookies
-  }),
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+
+      // allow all vercel.app domains
+      if (origin.includes("vercel.app")) {
+        return callback(null, true);
+      }
+
+      // allow localhost
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
 );
+
 app.use(express.json());
 
 app.use("/api", apiLimiter);
@@ -241,6 +264,7 @@ app.post("/api/breach-check", authMiddleware, async (req, res) => {
 });
 
 // POST /api/contact
+
 app.post("/api/contactUs", async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -249,28 +273,11 @@ app.post("/api/contactUs", async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: "Gmail", // or your email service
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    await sendContactEmail({ name, email, message });
 
-    await transporter.sendMail({
-      from: email,
-      to: process.env.EMAIL_USER,
-      subject: `New Contact Message from ${name}`,
-      text: message,
-      html: `<h1><strong>PassVault:🔑</strong></h1>
-             <p><strong>Name:</strong> ${name}</p>
-             <p><strong>Email:</strong> ${email}</p>
-             <p><strong>Message:</strong> ${message}</p>`,
-    });
-
-    res.status(200).json({ msg: "Message sent successfully" });
+    res.status(200).json({ msg: "Message sent successfully!" });
   } catch (err) {
-    console.error(err?.message);
+    console.error("CONTACT ERROR:", err.message);
     res.status(500).json({ msg: "Failed to send message" });
   }
 });

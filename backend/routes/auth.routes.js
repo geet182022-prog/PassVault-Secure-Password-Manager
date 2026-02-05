@@ -347,7 +347,8 @@ router.post("/trust-device", authMiddleware, async (req, res) => {
 router.post("/refresh", async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    const { deviceId } = req.body;
+    // const { deviceId } = req.body;
+    const deviceId = req.body.deviceId || req.headers["x-device-id"];
 
     if (!refreshToken || !deviceId) {
       return res.status(401).json({ msg: "Invalid refresh request" });
@@ -412,8 +413,8 @@ router.post("/logout", authMiddleware, async (req, res) => {
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      secure: true,
+      sameSite: "None",
     });
 
     await logEvent(req, "LOGOUT");
