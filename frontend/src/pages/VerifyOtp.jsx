@@ -62,29 +62,38 @@ const VerifyOtp = () => {
   };
 
   return (
-    <form onSubmit={handleVerify} className="otp-form">
-      <h2>Enter OTP</h2>
+     <div className="min-h-screen flex items-center justify-center bg-black text-white px-4">
+    <form onSubmit={handleVerify} className="bg-white/10 p-8 rounded-xl w-full max-w-sm shadow-lg">
+      <h2 className="text-xl font-bold mb-6 text-center"> 🔐 Enter OTP</h2>
 
       <input
         value={otp}
         onChange={(e) => setOtp(e.target.value)}
         placeholder="6-digit OTP"
+         className="w-full p-2 rounded bg-black/30 outline-none mb-4 text-center tracking-widest text-lg"
         required
       />
 
-      <button disabled={loading}>
+      <button 
+        disabled={loading}
+        type="submit"
+        className="w-full bg-violet-700 hover:bg-violet-600 py-2 rounded transition"
+      >
+  
         {loading ? "Verifying..." : "Verify OTP"}
       </button>
 
-      <label className="flex items-center gap-2 mt-4">
+      <label className="flex items-center gap-2 mt-5 text-sm text-gray-300">
         <input
           type="checkbox"
           checked={trustDevice}
           onChange={(e) => setTrustDevice(e.target.checked)}
+          className="accent-violet-600"
         />
         Trust this device for 30 days
       </label>
     </form>
+    </div>
   );
 };
 
