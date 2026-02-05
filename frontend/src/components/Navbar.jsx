@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import { AuthContext } from "../context/AuthContext";
-import {  useState,useContext } from "react";
+import { useState, useContext } from "react";
 import githubIcon from "../assets/icons/github.svg";
 
 const Navbar = () => {
@@ -13,11 +13,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post(
-        "/auth/logout",
-        {},
-        { withCredentials: true },
-      );
+      await axiosInstance.post("/auth/logout", {}, { withCredentials: true });
     } catch (err) {
       console.error("Logout API failed (continuing)", err?.message);
     }
@@ -29,7 +25,6 @@ const Navbar = () => {
 
   return (
     <>
-
       <nav className="bg-black/40 backdrop-blur-md border-b border-white/10 z-50">
         <div className="w-full md:mycontainer flex items-center justify-between px-4 py-3">
           {/* LOGO */}
@@ -67,11 +62,17 @@ const Navbar = () => {
 
           {/* GITHUB ICON */}
           <div className="hidden md:block">
-            <img
-              className="w-7 cursor-pointer invert"
-              src={githubIcon}
-              alt="GitHub"
-            />
+            <a
+              href="https://github.com/geet182022-prog/PassVault-Secure-Password-Manager"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                className="w-7 cursor-pointer invert hover:scale-110 transition"
+                src={githubIcon}
+                alt="GitHub"
+              />
+            </a>
           </div>
 
           {/* MOBILE MENU BUTTON */}
