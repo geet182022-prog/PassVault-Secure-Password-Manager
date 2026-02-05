@@ -61,7 +61,7 @@
 
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ✅ Common sender
 const FROM_EMAIL = "PassVault <onboarding@resend.dev>";
@@ -70,6 +70,7 @@ const FROM_EMAIL = "PassVault <onboarding@resend.dev>";
    🔐 LOGIN OTP EMAIL
 -----------------------------------------*/
 export const sendOTPEmail = async (to, otp) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
     from: FROM_EMAIL,
     to,
@@ -89,6 +90,8 @@ export const sendOTPEmail = async (to, otp) => {
    ⚠ NEW DEVICE ALERT EMAIL
 -----------------------------------------*/
 export const sendNewDeviceAlert = async (to, deviceInfo) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   await resend.emails.send({
     from: FROM_EMAIL,
     to,
@@ -108,6 +111,8 @@ export const sendNewDeviceAlert = async (to, deviceInfo) => {
    🔁 GENERIC EMAIL (Forgot Password etc.)
 -----------------------------------------*/
 export const sendTextEmail = async ({ to, subject, text }) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   await resend.emails.send({
     from: FROM_EMAIL,
     to,

@@ -17,29 +17,60 @@ export const AuthProvider = ({ children }) => {
   const lockTimerRef = useRef(null);
   const [accessToken, setAccessToken] = useState(null);
 
+  // const restoreSession = async () => {
+  //   try {
+  //     const deviceId = getDeviceId();
+
+  //     const refreshRes = await axiosInstance.post("/auth/refresh", {
+  //       deviceId,
+  //     });
+  //     const { accessToken } = refreshRes.data;
+
+  //     setAccessTokenService(accessToken); // ✅ axios header
+  //     setAccessToken(accessToken); // ✅ react state
+
+  //     const meRes = await axiosInstance.get("/auth/me");
+  //     setUser(meRes.data);
+
+  //     console.log("✅ Auth restored, vault locked");
+  //   } catch (err) {
+  //     console.error("RESTORE SESSION FAILED:", err?.message || "Unknown error");
+  //     logout();
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
+
   const restoreSession = async () => {
-    try {
-      const deviceId = getDeviceId();
+  try {
+    const deviceId = getDeviceId();
 
-      const refreshRes = await axiosInstance.post("/auth/refresh", {
-        deviceId,
-      });
-      const { accessToken } = refreshRes.data;
+    const refreshRes = await axiosInstance.post("/auth/refresh", {
+      deviceId,
+    });
 
-      setAccessTokenService(accessToken); // ✅ axios header
-      setAccessToken(accessToken); // ✅ react state
+    const { accessToken } = refreshRes.data;
 
-      const meRes = await axiosInstance.get("/auth/me");
-      setUser(meRes.data);
+    setAccessTokenService(accessToken);
+    setAccessToken(accessToken);
 
-      console.log("✅ Auth restored, vault locked");
-    } catch (err) {
-      console.error("RESTORE SESSION FAILED:", err?.message || "Unknown error");
-      logout();
-    } finally {
-      setLoading(false);
+    const meRes = await axiosInstance.get("/auth/me");
+    setUser(meRes.data);
+
+    console.log("✅ Auth restored");
+  } catch (err) {
+    if (err?.response?.status === 401) {
+      console.log("ℹ️ No active session yet (user not logged in)");
+    } else {
+      console.error("RESTORE SESSION FAILED:", err?.message);
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     if (!vaultKey) return;

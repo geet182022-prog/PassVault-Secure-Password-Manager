@@ -3,10 +3,19 @@ import axios from "axios";
 import { getAccessTokenService, setAccessTokenService } from "./tokenService";
 import { getDeviceId } from "./device";
 
+// const axiosInstance = axios.create({
+//   baseURL: `${import.meta.env.VITE_API_URL}/api` || "http://localhost:3002/api",
+//   withCredentials: true,
+// });
+
+const BASE =
+  import.meta.env.VITE_API_URL || "http://localhost:3002";
+
 const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api` || "http://localhost:3002/api",
+  baseURL: `${BASE}/api`,
   withCredentials: true,
 });
+
 
 // ---------------- REQUEST ----------------
 axiosInstance.interceptors.request.use(
