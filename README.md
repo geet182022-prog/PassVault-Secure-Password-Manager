@@ -14,6 +14,8 @@ This application allows users to safely store, manage, and audit their credentia
 
 ✅ Health Check Endpoint: https://passvault-backend-ikj0.onrender.com/api/health
 
+👉 📖 Read full blog here: https://medium.com/@geetanjali08102004/how-i-built-a-secure-password-manager-with-mern-design-decisions-trade-offs-real-world-1edb493b5e66
+
 ⚠️ Note: Signup/Login is enabled, but abuse is prevented using OTP throttling + rate limiting.
 
 ⚠️ Demo credentials available on request (for security reasons).
